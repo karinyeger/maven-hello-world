@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  version-bump:
+  build:
     runs-on: ubuntu-latest
     steps:
     # Checkout the code
@@ -38,3 +38,7 @@ jobs:
         git commit -m "Bump version to ${{ steps.version.outputs.NEW_VERSION }}"
         git push
         
+    - name: Compile Package and Create an artifact item
+      run: |
+        mvn clean package
+
