@@ -22,6 +22,7 @@ jobs:
       id: version
       run: |
         # Get the current version from the pom.xml
+        cd myapp
         VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
         NEW_VERSION=$(echo $VERSION | awk -F. '/[0-9]+\./{$NF++;print}' OFS=.)        
         # Update pom.xml with the new version
