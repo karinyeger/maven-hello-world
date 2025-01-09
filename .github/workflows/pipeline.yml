@@ -28,4 +28,13 @@ jobs:
         # Update pom.xml with the new version
         mvn versions:set -DnewVersion=$NEW_VERSION
         mvn clean install
+        echo "new version: $(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)"
+    
+    - name: Commit and push changes
+      uses: EndBug/add-and-commit@v7
+      with:
+        author_name: github-actions[bot]
+        author_email: github-actions[bot]@users.noreply.github.com
+        message: "Bump version to ${{ steps.version.outputs.new_version }}"
+        add: "pom.xml"
         
