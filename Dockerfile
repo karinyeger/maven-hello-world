@@ -2,7 +2,8 @@ FROM maven:3.8-openjdk-17-slim AS build
 
 WORKDIR /myapp
 
-COPY ./myapp/pom.xml .  &&  ./myapp/src ./src/
+COPY ./myapp/pom.xml .
+COPY ./myapp/src ./src/
 
 RUN mvn clean package -DskipTests
 
