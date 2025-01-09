@@ -44,7 +44,8 @@ jobs:
 
     - name: Build Docker image
       run: | 
-        echo "IMAGE_NAME='maven-hello-world'" >> $GITHUB_ENV
+        echo "IMAGE_NAME="maven-hello-world"" >> $GITHUB_ENV
+        echo "$IMAGE_NAME"
         docker build -t $IMAGE_NAME .  
         docker tag $IMAGE_NAME ${{ secrets.DOCKERHUB_USERNAME }}/$IMAGE_NAME:$VERSION
 
