@@ -1,0 +1,29 @@
+name: my app pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  version-bump:
+    runs-on: ubuntu-latest
+    steps:
+    # Checkout the code
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    # Read current version from pom.xml and increment the patch version
+    - name: Increment patch version
+      id: version
+      run: |
+        # Get the current version from the pom.xml
+        VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+        NEW_VERSION=$(echo $VERSION | awk -F. '/[0-9]+\./{$NF++;print}' OFS=.)        
+        # Update pom.xml with the new version
+        mvn versions:set -DnewVersion=$NEW_VERSION
+        mvn clean install
+        
