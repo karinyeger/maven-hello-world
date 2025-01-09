@@ -2,18 +2,22 @@ FROM maven:3.8-openjdk-17-slim AS build
 
 WORKDIR /myapp
 
-COPY pom.xml .
-COPY src ./src
+COPY ./myapp/pom.xml .  &&  ./myapp/src ./src/
 
 RUN mvn clean package -DskipTests
 
-FROM openjdk:17-jre-slim
+FROM openjdk:17.0.1-jdk-slim
 
 WORKDIR /myapp
- 
-ARG VERSION
-RUN VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
 
-COPY --from=build /myapp/target/myapp-${VERSION}.jar /myapp/myapp.jar
+COPY --from=build /myapp/target/*.jar myapp.jar
+
+RUN groupadd -g 999 appuser && \
+    useradd -m -u 999 -g appuser appuser
+
+USER appuser
 
 CMD ["java", "-jar", "myapp.jar"]
+
+# ENTRYPOINT ["java", "-jar"]
+# CMD ["myapp.jar"]
