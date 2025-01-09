@@ -43,8 +43,8 @@ jobs:
     #     mvn clean package
 
     - name: Build Docker image
-      run: |
-        IMAGE_NAME="maven-hello-world"  
+      run: | 
+        echo "IMAGE_NAME='maven-hello-world'" >> $GITHUB_ENV
         docker build -t $IMAGE_NAME .  
         docker tag $IMAGE_NAME ${{ secrets.DOCKERHUB_USERNAME }}/$IMAGE_NAME:$VERSION
 
@@ -56,4 +56,5 @@ jobs:
 
     - name: Push Docker image to Docker Hub
       run: |
+        echo "Pushing image: $IMAGE_NAME:$VERSION"
         docker push ${{ secrets.DOCKERHUB_USERNAME }}/$IMAGE_NAME:$VERSION 
