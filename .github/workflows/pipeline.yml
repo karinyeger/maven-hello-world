@@ -39,5 +39,6 @@ jobs:
         
     - name: Compile Package and Create an artifact item
       run: |
+        cd myapp
         mvn clean package
 
