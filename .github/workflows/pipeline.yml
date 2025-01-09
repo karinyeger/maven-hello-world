@@ -27,14 +27,14 @@ jobs:
         # Update pom.xml with the new version
         mvn versions:set -DnewVersion=$NEW_VERSION
         mvn clean install
-        echo "new version: $(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" 
+        echo "new_version=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_OUTPUT
 
     - name: Commit and push changes
       run: |
         git config user.name github-actions
         git config user.email github-actions@github.com
         git add .
-        git commit -m "Bump version to ${{ steps.version.outputs.NEW_VERSION }}"
+        git commit -m "Bump version to ${{ steps.version.outputs.new_version }}"
         git push
         
     - name: Compile Package and Create an artifact item
