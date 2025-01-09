@@ -15,7 +15,7 @@ jobs:
     steps:
     # Checkout the code
     - name: Checkout code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v2
 
     # Read current version from pom.xml and increment the patch version
     - name: Increment patch version
