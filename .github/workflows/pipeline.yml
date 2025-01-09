@@ -1,4 +1,4 @@
-name: my app pipeline
+name: myapp pipeline
 
 on:
   push:
