@@ -1,0 +1,9 @@
+replicaCount: 1
+
+image:
+  repository: karinyeger/maven-hello-world
+  tag: test
+
+service:
+  type: NodePort
+  port: 80

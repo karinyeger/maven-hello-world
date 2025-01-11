@@ -1,0 +1,5 @@
+apiVersion: v2
+name: maven-app
+description: A simple Maven Hello-World app
+version: 0.1.0
+appVersion: "1.0"
