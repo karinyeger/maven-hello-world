@@ -12,7 +12,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     outputs:
-      VERSION: ${{ steps.set_output.outputs.value }} 
+      VERSION: ${{ steps.set-version.outputs.VERSION }} 
     steps:
     
     # Checkout the repository
@@ -22,7 +22,7 @@ jobs:
     # Read current version from pom.xml and increment the patch version
     - name: Increment patch version
       working-directory: ./myapp
-      id: version
+      id: set-version
       run: |
         # Get the current version from the pom.xml
         VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
@@ -30,7 +30,7 @@ jobs:
         # Update pom.xml with the new version
         mvn versions:set -DnewVersion=$NEW_VERSION
         mvn clean install
-        echo "value=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_OUTPUT
+        echo "VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_OUTPUT
 
     - name: Commit and push changes
       working-directory: ./myapp
@@ -49,6 +49,8 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    env: 
+      VERSION: ${{ needs.set-version.outputs.VERSION }}
     steps:
 
     - name: Checkout code
@@ -58,7 +60,6 @@ jobs:
       run: | 
         IMAGE_NAME="maven-hello-world"
         echo "IMAGE_NAME=$IMAGE_NAME" >> $GITHUB_ENV
-        echo "VERSION=${{ needs.build.outputs.VERSION }}" >> $GITHUB_ENV
         docker build -t $IMAGE_NAME .  
         docker tag $IMAGE_NAME ${{ secrets.DOCKERHUB_USERNAME }}/$IMAGE_NAME:$VERSION
 
