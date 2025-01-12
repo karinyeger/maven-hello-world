@@ -12,7 +12,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     outputs:
-      VERSION: ${{ steps.set_output.outputs.VERSION }} 
+      VERSION: ${{ steps.set_output.outputs.value }} 
     steps:
     
     # Checkout the repository
@@ -30,7 +30,7 @@ jobs:
         # Update pom.xml with the new version
         mvn versions:set -DnewVersion=$NEW_VERSION
         mvn clean install
-        echo "VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_OUTPUT
+        echo "value=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_OUTPUT
 
     - name: Commit and push changes
       working-directory: ./myapp
