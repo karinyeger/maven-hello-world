@@ -20,8 +20,8 @@ jobs:
     - name: Increment patch version
       id: version
       run: |
-        # Get the current version from the pom.xml
         cd myapp
+        # Get the current version from the pom.xml
         VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
         NEW_VERSION=$(echo $VERSION | awk -F. '/[0-9]+\./{$NF++;print}' OFS=.)        
         # Update pom.xml with the new version
@@ -35,13 +35,17 @@ jobs:
         git config user.email github-actions@github.com
         git add .
         git commit -m "Bump version to $VERSION"
-        git push
+        git push origin master
         
     # - name: Compile Package and Create an artifact item
     #   run: |
     #     cd myapp
     #     mvn clean package
-
+    
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    
     - name: Build Docker image
       run: | 
         IMAGE_NAME="maven-hello-world"
