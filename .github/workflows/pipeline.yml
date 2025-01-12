@@ -12,15 +12,16 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    # Checkout the code
+    
+    # Checkout the repository
     - name: Checkout code
       uses: actions/checkout@v3
 
     # Read current version from pom.xml and increment the patch version
     - name: Increment patch version
+      working-directory: ./myapp
       id: version
       run: |
-        cd myapp
         # Get the current version from the pom.xml
         VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
         NEW_VERSION=$(echo $VERSION | awk -F. '/[0-9]+\./{$NF++;print}' OFS=.)        
@@ -30,6 +31,7 @@ jobs:
         echo "VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
 
     - name: Commit and push changes
+      working-directory: ./myapp
       run: |
         git config user.name github-actions
         git config user.email github-actions@github.com
@@ -43,8 +45,12 @@ jobs:
     #     mvn clean package
     
   deploy:
+    needs: build
     runs-on: ubuntu-latest
     steps:
+
+    - name: Checkout code
+      uses: actions/checkout@v3
     
     - name: Build Docker image
       run: | 
