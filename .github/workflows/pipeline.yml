@@ -58,7 +58,7 @@ jobs:
       run: | 
         IMAGE_NAME="maven-hello-world"
         echo "IMAGE_NAME=$IMAGE_NAME" >> $GITHUB_ENV
-        echo "VERSION=${{ needs.job1.outputs.VERSION }}" >> $GITHUB_ENV
+        echo "VERSION=${{ needs.build.outputs.VERSION }}" >> $GITHUB_ENV
         docker build -t $IMAGE_NAME .  
         docker tag $IMAGE_NAME ${{ secrets.DOCKERHUB_USERNAME }}/$IMAGE_NAME:$VERSION
 
