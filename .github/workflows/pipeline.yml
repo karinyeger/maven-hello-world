@@ -30,7 +30,7 @@ jobs:
         # Update pom.xml with the new version
         mvn versions:set -DnewVersion=$NEW_VERSION
         mvn clean install
-        echo "::set-output name=VERSION::$NEW_VERSION"
+        echo "VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_OUTPUT
 
     - name: Commit and push changes
       working-directory: ./myapp
