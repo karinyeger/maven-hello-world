@@ -50,7 +50,7 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     env: 
-      VERSION: ${{ needs.set-version.outputs.VERSION }}
+      VERSION: ${{ needs.build.outputs.VERSION }}
     steps:
 
     - name: Checkout code
