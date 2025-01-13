@@ -5,7 +5,7 @@ WORKDIR /myapp
 COPY ./myapp/pom.xml .
 COPY ./myapp/src ./src/
 
-RUN mvn clean package -DskipTests
+RUN mvn clean package
 
 FROM openjdk:17.0.1-jdk-slim
 
@@ -19,6 +19,3 @@ RUN groupadd -g 999 appuser && \
 USER appuser
 
 CMD ["java", "-jar", "myapp.jar"]
-
-# ENTRYPOINT ["java", "-jar"]
-# CMD ["myapp.jar"]
