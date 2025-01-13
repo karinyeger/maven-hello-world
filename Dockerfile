@@ -13,8 +13,7 @@ WORKDIR /myapp
 
 COPY --from=build /myapp/target/*.jar myapp.jar
 
-RUN groupadd -g 999 appuser && \
-    useradd -m -u 999 -g appuser appuser
+RUN RUN useradd -u 1001 appuser
 
 USER appuser
 
