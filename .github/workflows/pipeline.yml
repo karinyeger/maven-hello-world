@@ -33,16 +33,9 @@ jobs:
       run: |
         git config user.name github-actions
         git config user.email github-actions@github.com
-
-        # Check if pom.xml is changed
-        git diff --exit-code ./pom.xml
-        if [ $? -ne 0 ]; then
-          git add ./pom.xml
-          git commit -m "chore: bump version to $VERSION"
-          git push origin master
-        else
-          echo "No changes detected, skipping commit."
-        fi
+        git add ./pom.xml
+        git commit -m "chore: bump version to $VERSION"
+        git push origin master
     
   deploy:
     needs: build
