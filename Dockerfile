@@ -13,7 +13,7 @@ WORKDIR /myapp
 
 COPY --from=build /myapp/target/*.jar myapp.jar
 
-RUN useradd -u 1001 appuser
+RUN useradd appuser
 
 USER appuser
 
