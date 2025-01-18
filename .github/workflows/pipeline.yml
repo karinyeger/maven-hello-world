@@ -73,8 +73,3 @@ jobs:
     - name: Run Docker image
       run: |
         docker run --name myapp ${{ secrets.DOCKERHUB_USERNAME }}/$IMAGE_NAME:$VERSION
-    
-    # Logout from Docker Hub
-    - name: Logout from Docker Hub
-      run: |
-        docker logout
